@@ -64,12 +64,13 @@ export default function Index(): JSX.Element {
       </TouchableOpacity>
 
 
-      <View style={styles.registerContainer}>
-        <Text style={styles.registerText}>Caso não possua uma conta </Text>
-        <TouchableOpacity onPress={() => router.push('/register')}>
-          <Text style={styles.link}>registre-se</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.registerText}>
+        Caso não possua uma conta{' '}
+        <Text style={styles.link} onPress={() => router.push('/register')}>
+          registre-se
+        </Text>
+      </Text>
+
 
 
         <TouchableOpacity onPress={() => router.push('/getAge')} style={styles.googleButton}>
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     elevation: 2,
-    height: 350,
+    height: 380,
   },
   welcome: {
     fontSize: 24,

@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { router } from 'expo-router';
+import ErrorMessage from '@/components/ErrorMessage';
 
-export default function LoginScreen() {
+export default function Register() {
   const [nome, setNome] = useState('');
   const [idade, setIdade] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleRegister = (): void => {
+    if (!nome || !idade || !email || !password || !confirmPassword) {
+      setError('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('As senhas não coincidem');
+      return;
+    }
+
+    router.push('/home');
+  };
 
   return (
     <View style={styles.container}>
@@ -26,20 +43,18 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Idade"
           placeholderTextColor="#666"
-          secureTextEntry
+          keyboardType="numeric"
           value={idade}
           onChangeText={setIdade}
         />
-
         <TextInput
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#666"
-          secureTextEntry
+          keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
         />
-
         <TextInput
           style={styles.input}
           placeholder="Senha"
@@ -48,7 +63,6 @@ export default function LoginScreen() {
           value={password}
           onChangeText={setPassword}
         />
-
         <TextInput
           style={styles.input}
           placeholder="Confirmar senha"
@@ -58,7 +72,9 @@ export default function LoginScreen() {
           onChangeText={setConfirmPassword}
         />
 
-        <TouchableOpacity style={styles.primaryButton}>
+        {error ? <ErrorMessage message={error}/> : null}
+
+        <TouchableOpacity onPress={handleRegister} style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
@@ -112,6 +128,11 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: '#060609',
+    fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
     fontWeight: 'bold',
   },
 });

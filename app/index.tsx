@@ -9,9 +9,28 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 
-export default function LoginScreen(): JSX.Element {
+import ErrorMessage from '@/components/ErrorMessage';
+
+export default function Index(): JSX.Element {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+
+  const handleLogin = () => {
+    const validEmail = 'teste@gmail.com';
+    const validPassword = '123456';
+
+    if (email === validEmail && password === validPassword) {
+     router.push('/home');
+   } else if (!email || !password){
+     setError('Preencha todos os campos.')
+   }
+   
+   else {
+      setError('Email ou senha inválidos');
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -37,20 +56,23 @@ export default function LoginScreen(): JSX.Element {
           value={password}
           onChangeText={setPassword}
         />
+        
+        <ErrorMessage message={error} />
 
-        <TouchableOpacity
-          onPress={() => router.push('/home')}
-          style={styles.primaryButton}
-        >
-          <Text style={styles.primaryButtonText}>Continuar</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={handleLogin} style={styles.primaryButton}>
+        <Text style={styles.primaryButtonText}>Continuar</Text>
+      </TouchableOpacity>
 
-        <Text style={styles.registerText}>
-          Caso não possua uma conta{' '}
+
+      <View style={styles.registerContainer}>
+        <Text style={styles.registerText}>Caso não possua uma conta </Text>
+        <TouchableOpacity onPress={() => router.push('/register')}>
           <Text style={styles.link}>registre-se</Text>
-        </Text>
+        </TouchableOpacity>
+      </View>
 
-        <TouchableOpacity style={styles.googleButton}>
+
+        <TouchableOpacity onPress={() => router.push('/getAge')} style={styles.googleButton}>
           <Image
             source={require('../assets/images/Logo-Google.png')}
             style={styles.googleIcon}
@@ -85,6 +107,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     elevation: 2,
+    height: 350,
   },
   welcome: {
     fontSize: 24,
@@ -119,6 +142,11 @@ const styles = StyleSheet.create({
   link: {
     color: '#49AD78',
     textDecorationLine: 'underline',
+  },
+  registerContainer: {
+    flexDirection: 'row',
+    marginTop: 12,
+    alignItems: 'center',
   },
   googleButton: {
     flexDirection: 'row',

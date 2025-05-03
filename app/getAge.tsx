@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from 'react-native';
 import { router } from 'expo-router';
 import ErrorMessage from '@/components/ErrorMessage';
 
-export default function GetAge() {
-  const [idade, setIdade] = useState('');
-  const [error, setError] = useState('');
+export default function GetAge(): JSX.Element {
+  const [idade, setIdade] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   const handleGetAge = (): void => {
-    if (!idade) {
+    if (!idade.trim()) {
       setError('Por favor, preencha o campo.');
       return;
     }
 
+    setError('');
     router.push('/home');
   };
 
@@ -21,23 +31,26 @@ export default function GetAge() {
       <Image source={require('../assets/images/Logo.png')} style={styles.logo} />
 
       <View style={styles.card}>
-        <Text style={styles.information}>Para que possamos calibrar o aplicativo,
-        favor digite a sua idade</Text>
+        <Text style={styles.information}>
+          Para que possamos calibrar o aplicativo, favor digite a sua idade
+        </Text>
 
         <TextInput
           style={styles.input}
           placeholder="Idade"
           placeholderTextColor="#666"
           value={idade}
-          onChangeText={setIdade}
+          onChangeText={(text: string) => setIdade(text)}
+          keyboardType="numeric"
         />
 
-        {error ? <ErrorMessage message={error}/> : null}
+        {error ? <ErrorMessage message={error} /> : null}
 
         <TouchableOpacity onPress={handleGetAge} style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
+
       <Text>&copy; 2024 Conheço uma Ponte. All rights reserved.</Text>
     </View>
   );

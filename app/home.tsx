@@ -11,10 +11,31 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
+// Images
+import NutricaoIcon from '../assets/images/NutricaoIcon.png';
+import EspiritualidadeIcon from '../assets/images/EspiritualidadeIcon.png';
+import DescansoIcon from '../assets/images/DescansoIcon.png';
+import RespiracaoIcon from '../assets/images/RespiracaoIcon.png';
+import ExercicioIcon from '../assets/images/ExercicioIcon.png';
+import HidratacaoIcon from '../assets/images/HidratacaoIcon.png';
+import LuzSolarIcon from '../assets/images/LuzSolarIcon.png';
+import TemperancaIcon from '../assets/images/TemperancaIcon.png';
+
 export default function Home(): JSX.Element {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
   const profileRef = useRef<any>(null);
+
+  const cards = [
+    { title: 'Nutrição', color: '#7FC49B', route: '/nutricao', image: NutricaoIcon },
+    { title: 'Espiritualidade', color: '#92C9E3', route: '/espiritualidade', image: EspiritualidadeIcon },
+    { title: 'Descanso', color: '#C4B6F1', route: '/descanso', image: DescansoIcon },
+    { title: 'Respiração', color: '#A3F6E2', route: '/respiracao', image: RespiracaoIcon },
+    { title: 'Exercícios', color: '#F25C4C', route: '/exercicios', image: ExercicioIcon },
+    { title: 'Hidratação', color: '#60D9F8', route: '/hidratacao', image: HidratacaoIcon },
+    { title: 'Luz solar', color: '#F7C942', route: '/luzsolar', image: LuzSolarIcon },
+    { title: 'Temperança', color: '#B1BCC6', route: '/temperanca', image: TemperancaIcon },
+  ];
 
   const showMenu = () => {
     const handle = findNodeHandle(profileRef.current);
@@ -64,12 +85,27 @@ export default function Home(): JSX.Element {
                 <Text style={styles.menuText}>Editar Perfil</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
-                <Text style={[styles.menuText, styles.logoutText]}>Sair</Text> {/* Cor vermelha aqui */}
+                <Text style={[styles.menuText, styles.logoutText]}>Sair</Text>
               </TouchableOpacity>
             </View>
           </View>
         </TouchableWithoutFeedback>
       )}
+      <View style={styles.cardsContainer}>
+        {cards.map((card, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.card, { backgroundColor: card.color }]}
+            //onPress={() => router.push(card.route)}
+          >
+            <View style={styles.cardContent}>
+              <Image source={card.image} style={styles.cardIcon} />
+              <Text style={styles.cardText}>{card.title}</Text>
+              <Text style={styles.cardArrow}>→</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 }
@@ -117,5 +153,35 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: 'red',
+  },
+  cardsContainer: {
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  card: {
+    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    marginBottom: 12,
+  },
+  cardContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  cardText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  cardArrow: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  cardIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 12,
   },
 });

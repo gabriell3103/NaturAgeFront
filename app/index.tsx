@@ -70,16 +70,6 @@ export default function Index(): JSX.Element {
           registre-se
         </Text>
       </Text>
-
-
-
-        <TouchableOpacity onPress={() => router.push('/getAge')} style={styles.googleButton}>
-          <Image
-            source={require('../assets/images/Logo-Google.png')}
-            style={styles.googleIcon}
-          />
-          <Text style={styles.googleButtonText}>Continuar com Google</Text>
-        </TouchableOpacity>
       </View>
 
       <Text>© 2024 Conheço uma Ponte. All rights reserved.</Text>
@@ -108,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     alignItems: 'center',
     elevation: 2,
-    height: 380,
+    height: 280,
   },
   welcome: {
     fontSize: 24,

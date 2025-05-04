@@ -56,7 +56,7 @@ export default function Home(): JSX.Element {
   };
 
   const handleLogout = () => {
-    router.push('/login');
+    router.back();
     setMenuVisible(false);
   };
 
@@ -78,25 +78,26 @@ export default function Home(): JSX.Element {
       </View>
 
       {menuVisible && (
-        <TouchableWithoutFeedback onPress={closeMenu}>
-          <View style={StyleSheet.absoluteFill}>
-            <View style={[styles.floatingMenu, { top: menuPosition.top, right: menuPosition.right }]}>
-              <TouchableOpacity onPress={handleEditProfile} style={styles.menuItem}>
-                <Text style={styles.menuText}>Editar Perfil</Text>
-              </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={closeMenu}>
+        <View style={styles.overlay}>
+          <View style={[styles.floatingMenu, { top: menuPosition.top, right: menuPosition.right }]}>
+            <TouchableOpacity onPress={handleEditProfile} style={styles.menuItem}>
+              <Text style={styles.menuText}>Editar Perfil</Text>
+            </TouchableOpacity>
               <TouchableOpacity onPress={handleLogout} style={styles.menuItem}>
                 <Text style={[styles.menuText, styles.logoutText]}>Sair</Text>
               </TouchableOpacity>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+       </TouchableWithoutFeedback>
       )}
+
       <View style={styles.cardsContainer}>
         {cards.map((card, index) => (
           <TouchableOpacity
             key={index}
             style={[styles.card, { backgroundColor: card.color }]}
-            //onPress={() => router.push(card.route)}
+            onPress={() => router.push('/nutricao')}
           >
             <View style={styles.cardContent}>
               <Image source={card.image} style={styles.cardIcon} />
@@ -184,4 +185,8 @@ const styles = StyleSheet.create({
     height: 24,
     marginRight: 12,
   },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 999,
+  },  
 });

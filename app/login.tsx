@@ -30,6 +30,37 @@ export default function Login(): JSX.Element {
    else {
       setError('Email ou senha inválidos');
     }
+    /*
+    const handleLogin = async () => {
+    if (!email || !password) {
+      setError('Preencha todos os campos.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://<SEU_BACKEND_URL>/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Erro ao fazer login');
+        return;
+     }
+
+     router.push('/home');
+    } catch (error) {
+       setError('Erro de conexão com o servidor');
+        console.error(error);
+      }
+    };
+
+    */
   }
 
   return (

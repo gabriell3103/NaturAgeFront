@@ -97,7 +97,7 @@ export default function Home(): JSX.Element {
           <TouchableOpacity
             key={index}
             style={[styles.card, { backgroundColor: card.color }]}
-            onPress={() => router.push('/nutricao')}
+            onPress={() => router.push(card.route)}
           >
             <View style={styles.cardContent}>
               <Image source={card.image} style={styles.cardIcon} />

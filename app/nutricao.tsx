@@ -11,7 +11,7 @@ export default function Nutricao() {
       color="#7FC49B"
       goal={3} 
       userId='d2f0ce28-d187-4bc6-a743-a30e9c53ff83'
-      description="Consuma 3 porções diárias"
+      description="Sua saúde é sua maior riqueza! Cada escolha alimentar você faz é um passo em direção à sua meta de bem-estar. Mantenha-se focado, seja consistente e celebre seus pequenos sucessos ao longo do caminho. Você pode fazer a diferença com cada decisão nutricional!"
       questions={[
         { question: 'Porções de frutas (80g)' },
         { question: 'Porções de legumes ou verduras (80g)' },

@@ -56,7 +56,7 @@ export default function Home(): JSX.Element {
   };
 
   const handleLogout = () => {
-    router.back();
+    router.push('/login');
     setMenuVisible(false);
   };
 

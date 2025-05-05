@@ -1,5 +1,4 @@
-// components/CategoryCard.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageSourcePropType, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 
@@ -15,11 +14,37 @@ type Props = {
   description: string;
   questions: Question[];
   color: string;
+  userId: string;
 };
 
-const Card = ({ title, icon, goal, description, questions, color }: Props) => {
+const Card: React.FC<Props> = ({ title, icon, goal, description, questions, color, userId = 'd2f0ce28-d187-4bc6-a743-a30e9c53ff83' }) => {
   const router = useRouter();
   const [values, setValues] = useState<number[]>(questions.map((q) => q.initialValue ?? 0));
+  const [meta, setMeta] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const fetchMeta = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/metas/nutricao?userId=${userId}`);
+      const data = await response.json();
+      
+      if (response.ok && data.statusCode === 200 && data.data.Metas) {
+        setMeta(data.data.Metas);
+      } else {
+        console.error('Erro ao obter a meta:', data.message);
+      }
+    } catch (error) {
+      console.error('Erro na requisição GET:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (userId) {
+      fetchMeta();
+    }
+  }, [userId]);
 
   const increment = (index: number) => {
     const newValues = [...values];
@@ -29,7 +54,7 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
 
   const decrement = (index: number) => {
     const newValues = [...values];
-    newValues[index] = Math.max(0, newValues[index] - 1); // Impede que valores fiquem negativos
+    newValues[index] = Math.max(0, newValues[index] - 1);
     setValues(newValues);
   };
 
@@ -81,7 +106,13 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
           </View>
 
           <View style={styles.summaryBox}>
-            <Text style={[styles.goalText, { color }]}>{`0/${goal}`}</Text> {/* Sempre 0/goal */}
+            <Text style={[styles.goalText, { color }]}>
+              {loading
+                ? 'Carregando...'
+                : meta !== null
+                ? `${meta}/3`
+                : 'Meta não disponível'}
+            </Text>
             <Text>{description}</Text>
           </View>
 

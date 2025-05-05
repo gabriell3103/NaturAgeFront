@@ -102,8 +102,6 @@ export default function Login(): JSX.Element {
         </Text>
       </Text>
       </View>
-
-      <Text>© 2024 Conheço uma Ponte. All rights reserved.</Text>
     </View>
   );
 }

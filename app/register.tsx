@@ -78,7 +78,6 @@ export default function Register() {
           <Text style={styles.primaryButtonText}>Continuar</Text>
         </TouchableOpacity>
       </View>
-      <Text>&copy; 2024 Conheço uma Ponte. All rights reserved.</Text>
     </View>
   );
 }

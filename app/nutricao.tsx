@@ -10,6 +10,7 @@ export default function Nutricao() {
       icon= {NutricaoIcon}
       color="#7FC49B"
       goal={3} 
+      userId='d2f0ce28-d187-4bc6-a743-a30e9c53ff83'
       description="Consuma 3 porções diárias"
       questions={[
         { question: 'Porções de frutas (80g)' },

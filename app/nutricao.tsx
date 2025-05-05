@@ -14,7 +14,7 @@ export default function Nutricao() {
       questions={[
         { question: 'Porções de frutas (80g)' },
         { question: 'Porções de legumes ou verduras (80g)' },
-        { question: 'Comeu alimento ultraprocessado ou com muito açúcar?' },
+        { question: 'Comeu alimento ultraprocessado ou com muito açúcar? (25g)' },
       ]}
     />
   );

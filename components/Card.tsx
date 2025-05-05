@@ -35,7 +35,46 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
     setValues(newValues);
   };
 
-  // Dentro do return do CategoryCard
+  const handleSalvar = () => {
+    const handleSalvar = async () => {
+      const convertedAnswers = values.map((val, index) => {
+        if (index === 0 || index === 1) {
+          return val * 80;
+        } else if (index === 2) {
+          return val * 25;
+        } else {
+          return val;
+        }
+      });
+    
+      const payload = {
+        title,
+        answers: convertedAnswers,
+        total: total,
+      };
+    
+      try {
+        const response = await fetch('http://localhost:3000/nutricao', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+    
+        if (response.ok) {
+          console.log('Respostas salvas com sucesso!');
+          router.back();
+        } else {
+          console.error('Erro ao salvar:', await response.text());
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+      }
+    };
+    
+  }
+
 return (
   <View style={styles.modalBackground}>
     <View style={styles.modalContainer}>
@@ -68,6 +107,9 @@ return (
         </View>
       </ScrollView>
     </View>
+    <TouchableOpacity style={[styles.saveButton, { backgroundColor: color }]} onPress={handleSalvar}>
+      <Text style={styles.backButtonText}>Salvar</Text>
+    </TouchableOpacity>
     <TouchableOpacity style={[styles.fixedButton, { backgroundColor: color }]} onPress={() => router.back()}>
       <Text style={styles.backButtonText}>Voltar</Text>
     </TouchableOpacity>
@@ -161,6 +203,19 @@ const styles = StyleSheet.create({
   fixedButton: {
     position: 'absolute',
     bottom: 30,
+    alignSelf: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  saveButton: {
+    position: 'absolute',
+    bottom: 80,
     alignSelf: 'center',
     paddingVertical: 14,
     paddingHorizontal: 40,

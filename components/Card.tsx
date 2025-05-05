@@ -1,8 +1,7 @@
 // components/CategoryCard.tsx
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, ImageSourcePropType, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ImageSourcePropType, Image } from 'react-native';
 import { useRouter } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 type Question = {
   question: string;
@@ -21,7 +20,6 @@ type Props = {
 const Card = ({ title, icon, goal, description, questions, color }: Props) => {
   const router = useRouter();
   const [values, setValues] = useState<number[]>(questions.map((q) => q.initialValue ?? 0));
-  const total = values.reduce((sum, val) => sum + val, 0);
 
   const increment = (index: number) => {
     const newValues = [...values];
@@ -31,88 +29,88 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
 
   const decrement = (index: number) => {
     const newValues = [...values];
-    newValues[index] = Math.max(0, newValues[index] - 1);
+    newValues[index] = Math.max(0, newValues[index] - 1); // Impede que valores fiquem negativos
     setValues(newValues);
   };
 
-    const handleSalvar = async () => {
-      const convertedAnswers = values.map((val, index) => {
-        if (index === 0 || index === 1) {
-          return val * 80;
-        } else if (index === 2) {
-          return val * 25;
-        } else {
-          return val;
-        }
-      });
-    
-      const payload = {
-        PorcaoFrutas: 1,
-        PorcaoLegumesVerduras: 1,
-        AlimentosProcessados: 1,
-        userId: "d2f0ce28-d187-4bc6-a743-a30e9c53ff83"
-      };
-    
-      try {
-        const response = await fetch('http://localhost:3000/nutricao', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
-    
-        if (response.ok) {
-          console.log('Respostas salvas com sucesso!');
-          router.back();
-        } else {
-          console.error('Erro ao salvar:', await response.text());
-        }
-      } catch (error) {
-        console.error('Erro na requisição:', error);
+  const handleSalvar = async () => {
+    const convertedAnswers = values.map((val, index) => {
+      if (index === 0 || index === 1) {
+        return val * 80;
+      } else if (index === 2) {
+        return val * 25;
+      } else {
+        return val;
       }
+    });
+
+    const payload = {
+      PorcaoFrutas: 1,
+      PorcaoLegumesVerduras: 1,
+      AlimentosProcessados: 1,
+      userId: "d2f0ce28-d187-4bc6-a743-a30e9c53ff83"
     };
 
-return (
-  <View style={styles.modalBackground}>
-    <View style={styles.modalContainer}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-        <Image source={icon} style={styles.icon} />
-          <Text style={styles.title}>{title}</Text>
-        </View>
+    try {
+      const response = await fetch('http://localhost:3000/nutricao', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-        <View style={styles.summaryBox}>
-          <Text style={[styles.goalText, { color }]}>{total}/{goal}</Text>
-          <Text>{description}</Text>
-        </View>
+      if (response.ok) {
+        console.log('Respostas salvas com sucesso!');
+        router.back();
+      } else {
+        console.error('Erro ao salvar:', await response.text());
+      }
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+    }
+  };
 
-        <View style={styles.questionsBox}>
-          {questions.map((item, idx) => (
-            <View key={idx} style={styles.questionRow}>
-              <Text style={styles.questionText}>{item.question}</Text>
-              <View style={styles.counter}>
-                <TouchableOpacity onPress={() => decrement(idx)}>
-                  <Text style={styles.counterBtn}>−</Text>
-                </TouchableOpacity>
-                <Text style={styles.counterVal}>{values[idx]}</Text>
-                <TouchableOpacity onPress={() => increment(idx)}>
-                  <Text style={styles.counterBtn}>+</Text>
-                </TouchableOpacity>
+  return (
+    <View style={styles.modalBackground}>
+      <View style={styles.modalContainer}>
+        <ScrollView contentContainerStyle={styles.content}>
+          <View style={styles.header}>
+            <Image source={icon} style={styles.icon} />
+            <Text style={styles.title}>{title}</Text>
+          </View>
+
+          <View style={styles.summaryBox}>
+            <Text style={[styles.goalText, { color }]}>{`0/${goal}`}</Text> {/* Sempre 0/goal */}
+            <Text>{description}</Text>
+          </View>
+
+          <View style={styles.questionsBox}>
+            {questions.map((item, idx) => (
+              <View key={idx} style={styles.questionRow}>
+                <Text style={styles.questionText}>{item.question}</Text>
+                <View style={styles.counter}>
+                  <TouchableOpacity onPress={() => decrement(idx)}>
+                    <Text style={styles.counterBtn}>−</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.counterVal}>{values[idx]}</Text>
+                  <TouchableOpacity onPress={() => increment(idx)}>
+                    <Text style={styles.counterBtn}>+</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+      <TouchableOpacity style={[styles.saveButton, { backgroundColor: color }]} onPress={handleSalvar}>
+        <Text style={styles.backButtonText}>Salvar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.fixedButton, { backgroundColor: color }]} onPress={() => router.back()}>
+        <Text style={styles.backButtonText}>Voltar</Text>
+      </TouchableOpacity>
     </View>
-    <TouchableOpacity style={[styles.saveButton, { backgroundColor: color }]} onPress={handleSalvar}>
-      <Text style={styles.backButtonText}>Salvar</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={[styles.fixedButton, { backgroundColor: color }]} onPress={() => router.back()}>
-      <Text style={styles.backButtonText}>Voltar</Text>
-    </TouchableOpacity>
-  </View>
-);
+  );
 };
 
 const styles = StyleSheet.create({

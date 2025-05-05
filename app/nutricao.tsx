@@ -9,12 +9,12 @@ export default function Nutricao() {
       title="Nutrição"
       icon= {NutricaoIcon}
       color="#7FC49B"
-      goal={3}
+      goal={3} 
       description="Consuma 3 porções diárias"
       questions={[
         { question: 'Porções de frutas (80g)' },
         { question: 'Porções de legumes ou verduras (80g)' },
-        { question: 'Comeu alimento ultraprocessado ou com muito açúcar? (25g)' },
+        { question: 'Comeu alimento ultraprocessado ou com muito açúcar (25g)' },
       ]}
     />
   );

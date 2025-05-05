@@ -35,7 +35,6 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
     setValues(newValues);
   };
 
-  const handleSalvar = () => {
     const handleSalvar = async () => {
       const convertedAnswers = values.map((val, index) => {
         if (index === 0 || index === 1) {
@@ -48,9 +47,10 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
       });
     
       const payload = {
-        title,
-        answers: convertedAnswers,
-        total: total,
+        PorcaoFrutas: 1,
+        PorcaoLegumesVerduras: 1,
+        AlimentosProcessados: 1,
+        userId: "d2f0ce28-d187-4bc6-a743-a30e9c53ff83"
       };
     
       try {
@@ -72,8 +72,6 @@ const Card = ({ title, icon, goal, description, questions, color }: Props) => {
         console.error('Erro na requisição:', error);
       }
     };
-    
-  }
 
 return (
   <View style={styles.modalBackground}>
